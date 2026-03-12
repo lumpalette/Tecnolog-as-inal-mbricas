@@ -7,6 +7,8 @@
 RF24 radio(CE_PIN, CSN_PIN);
 const byte direccion[6] = "00002";
 
+int ledState = false;
+
 void setup() {
   Serial.begin(115200);
   
@@ -14,6 +16,8 @@ void setup() {
     Serial.println("NRF24 NO detectado");
     while (1);
   }
+
+  pinMode(LED_BUILTIN, OUTPUT);
 
   Serial.println("NRF24 detectado");
 
@@ -31,5 +35,8 @@ void loop() {
     radio.read(&texto, sizeof(texto));
     Serial.print("Recibido: ");
     Serial.println(texto);
+
+    digitalWrite(LED_BUILTIN, ledState ? LOW : HIGH);
+    ledState = !ledState;
   }
 }
